@@ -7,8 +7,8 @@ import pygame
 from flask import Flask,jsonify,render_template
 
 DIR=os.path.dirname(os.path.abspath(__file__))
-MODEL_FILE=os.path.join(DIR,"vitalguard_cnn.keras")
-SCALER_FILE=os.path.join(DIR,"sensor_scaler.pkl")
+MODEL_FILE=os.path.join(DIR,"model","vitalguard_cnn.keras")
+SCALER_FILE=os.path.join(DIR,"model","sensor_scaler.pkl")
 ALERT_SOUND=os.path.join(DIR,"static","music","alert.mp3")
 
 UDP_IP="0.0.0.0"
