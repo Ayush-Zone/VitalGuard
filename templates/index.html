@@ -1,83 +1,658 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>VitalGuard AI</title>
-<style>
-*{box-sizing:border-box}
-:root{--blue:#1267e8;--text:#111936;--muted:#68748f;--line:#e4ebf7;--green:#19b85b;--red:#ef3340}
-body{margin:0;height:100vh;overflow:hidden;background:linear-gradient(135deg,#f7fbff,#edf5fd);font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--text)}
-header{height:72px;background:rgba(255,255,255,.94);border-bottom:1px solid #dce6f3;display:flex;align-items:center;justify-content:space-between;padding:0 3%;gap:25px}
-.brand{display:flex;align-items:center;gap:13px}.logo{width:48px;height:54px;display:grid;place-items:center;color:white;font-size:27px;background:linear-gradient(150deg,#1680ff,#0757d5);clip-path:polygon(50% 0,94% 15%,88% 72%,50% 100%,12% 72%,6% 15%);filter:drop-shadow(0 4px 6px #b8d5fa)}.brand h1{margin:0;font-size:28px;color:#1058c8}.brand p{margin:0;color:#71809e;font-size:15px}
-.device{display:flex;align-items:center;gap:12px}.dot{width:14px;height:14px;border-radius:50%;background:#6bdc26;box-shadow:0 0 0 9px #e8faee}.device b{font-size:14px}.device small{display:block;color:#74819a;margin-top:2px;font-size:13px}.clock{border-left:1px solid #dbe3ef;padding-left:22px;margin-left:10px}.clock strong{font-size:17px}.clock span{display:block;color:#697791;margin-top:2px;font-size:13px}
-main{height:calc(100vh - 72px);padding:12px 1.45%;display:grid;grid-template-columns:36.5% 36.5% 24%;grid-template-rows:1fr 1fr;gap:12px;overflow:hidden}
-.card{background:rgba(255,255,255,.96);border:1px solid #edf2f8;border-radius:20px;box-shadow:0 6px 24px rgba(48,89,142,.07);min-height:0}
-.activity-card{grid-row:1/3;overflow:hidden;display:flex;flex-direction:column;min-height:0}.activity-title{padding:22px 38px 0}.label{color:#71809e;font-size:19px}.activity-title h2{margin:3px 0 0;color:var(--blue);font-size:36px}.video-wrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:0 18px;position:relative}.video-wrap video{width:100%;height:100%;max-height:100%;object-fit:contain;border-radius:16px}.video-fallback{position:absolute;inset:15px;display:none;align-items:center;justify-content:center;color:#a1acc0;font-size:15px;background:#f7faff;border-radius:16px}.activity-buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:9px 18px 15px}.act-btn{height:76px;border:1px solid #e5ebf5;background:#f4f7fc;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#65718d;font-size:14px;cursor:pointer}.act-btn.active{border-color:#3190ff;background:#f7fbff;color:var(--blue);box-shadow:inset 0 0 0 1px #3190ff}.act-icon{font-size:25px}
-.vital-card{padding:19px}.card-head{display:flex;align-items:center;justify-content:space-between;padding:0 5px 12px}.card-head h3{font-size:22px;margin:0}.head-icon{font-size:30px;margin-right:8px}.head-left{display:flex;align-items:center}.live{background:#e5f9eb;color:#079447;border-radius:15px;padding:6px 11px;font-weight:700;font-size:12px}.live:before{content:"";display:inline-block;width:7px;height:7px;background:#15aa54;border-radius:50%;margin-right:6px}.vitals{display:grid;grid-template-columns:1fr 1fr;gap:12px}.vital{border-radius:17px;padding:15px 18px 10px;min-height:0}.hr{background:linear-gradient(145deg,#fff4f6,#fffafb)}.spo{background:linear-gradient(145deg,#f3f9ff,#f7fbff)}.vital-top{display:flex;align-items:center;gap:12px}.vicon{width:45px;height:45px;border-radius:50%;display:grid;place-items:center;font-size:23px}.hr .vicon{background:#ffe9ed}.spo .vicon{background:#e6f2ff}.vname{font-size:16px;color:#4e5a75}.value{font-size:36px;font-weight:700;margin:1px 0}.unit{font-size:14px;font-weight:500}.range{text-align:center;color:#75819b;margin-top:4px;font-size:13px}.wave{height:37px;margin-top:4px;width:100%}.wave svg{width:100%;height:100%}
-.side-card{padding:19px}.side-card h3,.info-card h3,.recent h3{font-size:22px;margin:0}.alert-box{text-align:center;padding:20px 8px 10px}.check{width:82px;height:82px;margin:auto;border-radius:50%;background:#dcf9e5;display:grid;place-items:center;font-size:47px;color:#14a956;font-weight:700}.alert-box h4{font-size:20px;margin:15px 0 7px}.alert-box p{color:#596681;font-size:14px;margin:0}
-.info-card{padding:19px}.info-table{margin-top:12px;border:1px solid #e5ecf5;border-radius:14px;padding:3px 19px}.row{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #edf1f7;font-size:15px;color:#5f6c88}.row:last-child{border:0}.row strong{color:#121b35}.green{color:#0eaa4d!important}.red{color:#ef3340!important}
-.recent{padding:19px}.recent-list{margin-top:7px;max-height:calc(100% - 45px);overflow-y:auto}.recent-row{display:grid;grid-template-columns:12px 72px 1fr;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid #edf1f7;font-size:14px}.recent-row:last-child{border:0}.r-dot{width:11px;height:11px;border-radius:50%;background:#238af0}.r-dot.fall{background:#ef3a42}.r-time{color:#67748f}.r-activity{color:#56627d}.r-activity.fall{color:#ef3340}
-@media(max-width:1100px){header{padding:0 18px}.device{display:none}main{grid-template-columns:1fr 1fr}.activity-card{grid-row:1/3}}
-@media(max-width:700px){body{overflow:auto}header{height:65px}.brand h1{font-size:23px}.brand p{font-size:11px}.clock{padding-left:10px}.clock strong{font-size:13px}.clock span{font-size:11px}main{height:auto;min-height:calc(100vh - 65px);display:block;padding:8px;overflow:visible}.card{margin-bottom:10px}.activity-card{height:600px}.vitals{grid-template-columns:1fr 1fr}.activity-buttons{grid-template-columns:repeat(2,1fr)}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>VitalGuard AI</title>
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        :root {
+            --blue: #1267e8;
+            --text: #111936;
+            --muted: #68748f;
+            --line: #e4ebf7;
+            --green: #19b85b;
+            --red: #ef3340
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f7fbff, #edf5fd);
+            font-family: Inter, Segoe UI, Arial, sans-serif;
+            color: var(--text)
+        }
+
+        header {
+            height: 72px;
+            background: rgba(255, 255, 255, .94);
+            border-bottom: 1px solid #dce6f3;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 3%;
+            gap: 25px
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 13px
+        }
+
+        .logo {
+            width: 48px;
+            height: 54px;
+            display: grid;
+            place-items: center;
+            color: white;
+            font-size: 27px;
+            background: linear-gradient(150deg, #1680ff, #0757d5);
+            clip-path: polygon(50% 0, 94% 15%, 88% 72%, 50% 100%, 12% 72%, 6% 15%);
+            filter: drop-shadow(0 4px 6px #b8d5fa)
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 28px;
+            color: #1058c8
+        }
+
+        .brand p {
+            margin: 0;
+            color: #71809e;
+            font-size: 15px
+        }
+
+        .device {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #6bdc26;
+            box-shadow: 0 0 0 9px #e8faee
+        }
+
+        .device b {
+            font-size: 14px
+        }
+
+        .device small {
+            display: block;
+            color: #74819a;
+            margin-top: 2px;
+            font-size: 13px
+        }
+
+        .clock {
+            border-left: 1px solid #dbe3ef;
+            padding-left: 22px;
+            margin-left: 10px
+        }
+
+        .clock strong {
+            font-size: 17px
+        }
+
+        .clock span {
+            display: block;
+            color: #697791;
+            margin-top: 2px;
+            font-size: 13px
+        }
+
+        main {
+            height: calc(100vh - 72px);
+            padding: 12px 1.45%;
+            display: grid;
+            grid-template-columns: 36.5% 36.5% 24%;
+            grid-template-rows: 1fr 1fr;
+            gap: 12px;
+            overflow: hidden
+        }
+
+        .card {
+            background: rgba(255, 255, 255, .96);
+            border: 1px solid #edf2f8;
+            border-radius: 20px;
+            box-shadow: 0 6px 24px rgba(48, 89, 142, .07);
+            min-height: 0
+        }
+
+        .activity-card {
+            grid-row: 1/3;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 0
+        }
+
+        .activity-title {
+            padding: 22px 38px 0
+        }
+
+        .label {
+            color: #71809e;
+            font-size: 19px
+        }
+
+        .activity-title h2 {
+            margin: 3px 0 0;
+            color: var(--blue);
+            font-size: 36px
+        }
+
+        .video-wrap {
+            flex: 1;
+            min-height: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 18px;
+            position: relative
+        }
+
+        .video-wrap video {
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 16px
+        }
+
+        .video-fallback {
+            position: absolute;
+            inset: 15px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: #a1acc0;
+            font-size: 15px;
+            background: #f7faff;
+            border-radius: 16px
+        }
+
+        .activity-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            padding: 9px 18px 15px
+        }
+
+        .act-btn {
+            height: 76px;
+            border: 1px solid #e5ebf5;
+            background: #f4f7fc;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            color: #65718d;
+            font-size: 14px;
+            cursor: pointer
+        }
+
+        .act-btn.active {
+            border-color: #3190ff;
+            background: #f7fbff;
+            color: var(--blue);
+            box-shadow: inset 0 0 0 1px #3190ff
+        }
+
+        .act-icon {
+            font-size: 25px
+        }
+
+        .vital-card {
+            padding: 19px
+        }
+
+        .card-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5px 12px
+        }
+
+        .card-head h3 {
+            font-size: 22px;
+            margin: 0
+        }
+
+        .head-icon {
+            font-size: 30px;
+            margin-right: 8px
+        }
+
+        .head-left {
+            display: flex;
+            align-items: center
+        }
+
+        .live {
+            background: #e5f9eb;
+            color: #079447;
+            border-radius: 15px;
+            padding: 6px 11px;
+            font-weight: 700;
+            font-size: 12px
+        }
+
+        .live:before {
+            content: "";
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            background: #15aa54;
+            border-radius: 50%;
+            margin-right: 6px
+        }
+
+        .vitals {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px
+        }
+
+        .vital {
+            border-radius: 17px;
+            padding: 15px 18px 10px;
+            min-height: 0
+        }
+
+        .hr {
+            background: linear-gradient(145deg, #fff4f6, #fffafb)
+        }
+
+        .spo {
+            background: linear-gradient(145deg, #f3f9ff, #f7fbff)
+        }
+
+        .vital-top {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .vicon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 23px
+        }
+
+        .hr .vicon {
+            background: #ffe9ed
+        }
+
+        .spo .vicon {
+            background: #e6f2ff
+        }
+
+        .vname {
+            font-size: 16px;
+            color: #4e5a75
+        }
+
+        .value {
+            font-size: 36px;
+            font-weight: 700;
+            margin: 1px 0
+        }
+
+        .unit {
+            font-size: 14px;
+            font-weight: 500
+        }
+
+        .range {
+            text-align: center;
+            color: #75819b;
+            margin-top: 4px;
+            font-size: 13px
+        }
+
+        .wave {
+            height: 37px;
+            margin-top: 4px;
+            width: 100%
+        }
+
+        .wave svg {
+            width: 100%;
+            height: 100%
+        }
+
+        .side-card {
+            padding: 19px
+        }
+
+        .side-card h3,
+        .info-card h3,
+        .recent h3 {
+            font-size: 22px;
+            margin: 0
+        }
+
+        .alert-box {
+            text-align: center;
+            padding: 20px 8px 10px
+        }
+
+        .check {
+            width: 82px;
+            height: 82px;
+            margin: auto;
+            border-radius: 50%;
+            background: #dcf9e5;
+            display: grid;
+            place-items: center;
+            font-size: 47px;
+            color: #14a956;
+            font-weight: 700
+        }
+
+        .alert-box h4 {
+            font-size: 20px;
+            margin: 15px 0 7px
+        }
+
+        .alert-box p {
+            color: #596681;
+            font-size: 14px;
+            margin: 0
+        }
+
+        .info-card {
+            padding: 19px
+        }
+
+        .info-table {
+            margin-top: 12px;
+            border: 1px solid #e5ecf5;
+            border-radius: 14px;
+            padding: 3px 19px
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 13px 0;
+            border-bottom: 1px solid #edf1f7;
+            font-size: 15px;
+            color: #5f6c88
+        }
+
+        .row:last-child {
+            border: 0
+        }
+
+        .row strong {
+            color: #121b35
+        }
+
+        .green {
+            color: #0eaa4d !important
+        }
+
+        .red {
+            color: #ef3340 !important
+        }
+
+        .recent {
+            padding: 19px
+        }
+
+        .recent-list {
+            margin-top: 7px;
+            max-height: calc(100% - 45px);
+            overflow-y: auto
+        }
+
+        .recent-row {
+            display: grid;
+            grid-template-columns: 12px 72px 1fr;
+            align-items: center;
+            gap: 9px;
+            padding: 9px 0;
+            border-bottom: 1px solid #edf1f7;
+            font-size: 14px
+        }
+
+        .recent-row:last-child {
+            border: 0
+        }
+
+        .r-dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: #238af0
+        }
+
+        .r-dot.fall {
+            background: #ef3a42
+        }
+
+        .r-time {
+            color: #67748f
+        }
+
+        .r-activity {
+            color: #56627d
+        }
+
+        .r-activity.fall {
+            color: #ef3340
+        }
+
+        @media(max-width:1100px) {
+            header {
+                padding: 0 18px
+            }
+
+            .device {
+                display: none
+            }
+
+            main {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .activity-card {
+                grid-row: 1/3
+            }
+        }
+
+        @media(max-width:700px) {
+            body {
+                overflow: auto
+            }
+
+            header {
+                height: 65px
+            }
+
+            .brand h1 {
+                font-size: 23px
+            }
+
+            .brand p {
+                font-size: 11px
+            }
+
+            .clock {
+                padding-left: 10px
+            }
+
+            .clock strong {
+                font-size: 13px
+            }
+
+            .clock span {
+                font-size: 11px
+            }
+
+            main {
+                height: auto;
+                min-height: calc(100vh - 65px);
+                display: block;
+                padding: 8px;
+                overflow: visible
+            }
+
+            .card {
+                margin-bottom: 10px
+            }
+
+            .activity-card {
+                height: 600px
+            }
+
+            .vitals {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .activity-buttons {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+    </style>
 </head>
+
 <body>
-<header>
-<div class="brand"><div class="logo">♥</div><div><h1>VitalGuard-AI</h1><p>Fall Detection &amp; Vital Monitoring</p></div></div>
-<div class="device"><div class="dot" id="deviceDot"></div><div><b id="deviceText">Device Connected</b><small id="deviceIp">Waiting for device...</small></div><div class="clock"><strong id="clock">--:--:--</strong><span id="date">---</span></div></div>
-</header>
-<main>
-<section class="card activity-card">
-<div class="activity-title"><div class="label">Current Activity</div><h2 id="currentActivity">Still</h2></div>
-<div class="video-wrap"><video id="activityVideo" autoplay muted loop playsinline></video><div class="video-fallback" id="videoFallback">Add activity videos to static/videos/</div></div>
-<div class="activity-buttons"><button class="act-btn" data-act="Walking"><span class="act-icon">🚶</span>Walking</button><button class="act-btn" data-act="Sleeping"><span class="act-icon">🛏</span>Sleeping</button><button class="act-btn" data-act="Still"><span class="act-icon">🧍</span>Still</button><button class="act-btn" data-act="Falling"><span class="act-icon">⚠</span>Falling</button></div>
-</section>
-<section class="card vital-card">
-<div class="card-head"><div class="head-left"><span class="head-icon">♥</span><h3>Vital Signs</h3></div><div class="live">Live</div></div>
-<div class="vitals">
-<div class="vital hr"><div class="vital-top"><div class="vicon">❤️</div><div class="vname">Heart Rate</div></div><div><span class="value" id="hr">--</span> <span class="unit">bpm</span></div><div class="wave"><svg viewBox="0 0 300 60" preserveAspectRatio="none"><path d="M0 31 C20 25 24 45 43 31 S70 19 88 33 S116 49 137 28 S162 19 181 32 S210 49 229 31 S260 18 300 31" fill="none" stroke="#ef3d48" stroke-width="3"/></svg></div><div class="range">60 - 100</div></div>
-<div class="vital spo"><div class="vital-top"><div class="vicon">💧</div><div class="vname">SpO₂</div></div><div><span class="value" id="spo2">--</span> <span class="unit">%</span></div><div class="wave"><svg viewBox="0 0 300 60" preserveAspectRatio="none"><path d="M0 28 C20 8 40 12 59 30 S92 48 112 28 S143 8 161 28 S190 47 210 29 S240 14 258 29 S279 43 300 29" fill="none" stroke="#2085ef" stroke-width="3"/></svg></div><div class="range">95 - 100</div></div>
-</div>
-</section>
-<section class="card side-card">
-<div class="head-left"><span class="head-icon">🔔</span><h3>Alerts</h3></div>
-<div class="alert-box"><div class="check" id="alertIcon">✓</div><h4 id="alertTitle">No Active Alerts</h4><p id="alertText">System is monitoring normally</p></div>
-</section>
-<section class="card info-card">
-<div class="head-left"><span class="head-icon">〽</span><h3>Activity Information</h3></div>
-<div class="info-table"><div class="row"><span>Activity</span><strong id="infoActivity" class="green">Still</strong></div><div class="row"><span>Confidence</span><strong id="confidence">0%</strong></div><div class="row"><span>Duration</span><strong id="duration">00:00:00</strong></div></div>
-</section>
-<section class="card recent">
-<div class="head-left"><span class="head-icon">◷</span><h3>Recent Activity</h3></div>
-<div class="recent-list" id="recentList"></div>
-</section>
-</main>
-<script>
-const videoMap={Walking:"walk.mp4",Sleeping:"sleep.mp4",Still:"still.mp4",Falling:"fall.mp4"};let currentVideo="";
-function updateClock(){const d=new Date();document.getElementById("clock").textContent=d.toLocaleTimeString();document.getElementById("date").textContent=d.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"})}setInterval(updateClock,1000);updateClock();
-function setVideo(activity){const file=videoMap[activity],video=document.getElementById("activityVideo"),fallback=document.getElementById("videoFallback");if(!file||file===currentVideo)return;currentVideo=file;video.src="/static/videos/"+file;video.load();video.play().catch(()=>{});video.onerror=()=>fallback.style.display="flex";video.onloadeddata=()=>fallback.style.display="none"}
-function renderHistory(items){const list=document.getElementById("recentList");if(!items||!items.length){list.innerHTML='<div style="color:#8994aa;padding:15px 0">Waiting for activity data...</div>';return}list.innerHTML=items.map(x=>`<div class="recent-row"><span class="r-dot ${x.fall?"fall":""}"></span><span class="r-time">${x.time}</span><span class="r-activity ${x.fall?"fall":""}">${x.activity}</span></div>`).join("")}
-function update(data){
-const activity=data.activity||"Still";
-document.getElementById("currentActivity").textContent=activity;
-document.getElementById("infoActivity").textContent=activity;
-document.getElementById("infoActivity").className=activity==="Falling"?"red":"green";
-document.getElementById("confidence").textContent=(data.confidence||0).toFixed(0)+"%";
-document.getElementById("duration").textContent=data.duration||"00:00:00";
-document.getElementById("hr").textContent=data.heart_rate==null?"--":data.heart_rate;
-document.getElementById("spo2").textContent=data.spo2==null?"--":data.spo2;
-setVideo(activity);
-document.querySelectorAll(".act-btn").forEach(b=>b.classList.toggle("active",b.dataset.act===activity));
-const connected=data.device_connected;
-document.getElementById("deviceText").textContent=connected?"Device Connected":"Device Disconnected";
-document.getElementById("deviceIp").textContent=connected?(data.device_ip||"Connected"):"Waiting for device...";
-document.getElementById("deviceDot").style.background=connected?"#6bdc26":"#f2a51b";
-const alerts=data.alerts||[],alertIcon=document.getElementById("alertIcon"),alertTitle=document.getElementById("alertTitle"),alertText=document.getElementById("alertText");
-if(alerts.length){alertIcon.textContent="!";alertIcon.style.background="#ffe3e5";alertIcon.style.color="#ef3340";alertTitle.textContent=alerts[0];alertText.textContent=alerts.length>1?alerts.slice(1).join(" • "):"Immediate attention may be required"}else{alertIcon.textContent="✓";alertIcon.style.background="#dcf9e5";alertIcon.style.color="#14a956";alertTitle.textContent="No Active Alerts";alertText.textContent="System is monitoring normally"}
-renderHistory(data.history);
-}
-async function poll(){try{const r=await fetch("/api/status",{cache:"no-store"});if(r.ok)update(await r.json())}catch(e){document.getElementById("deviceText").textContent="Server Offline"}}setVideo("Still");poll();setInterval(poll,1000);
-</script>
+    <header>
+        <div class="brand">
+            <div class="logo">♥</div>
+            <div>
+                <h1>VitalGuard-AI</h1>
+                <p>Fall Detection &amp; Vital Monitoring</p>
+            </div>
+        </div>
+        <div class="device">
+            <div class="dot" id="deviceDot"></div>
+            <div><b id="deviceText">Device Connected</b><small id="deviceIp">Waiting for device...</small></div>
+            <div class="clock"><strong id="clock">--:--:--</strong><span id="date">---</span></div>
+        </div>
+    </header>
+    <main>
+        <section class="card activity-card">
+            <div class="activity-title">
+                <div class="label">Current Activity</div>
+                <h2 id="currentActivity">Still</h2>
+            </div>
+            <div class="video-wrap"><video id="activityVideo" autoplay muted loop playsinline></video>
+                <div class="video-fallback" id="videoFallback">Add activity videos to static/videos/</div>
+            </div>
+            <div class="activity-buttons"><button class="act-btn" data-act="Walking"><span
+                        class="act-icon">🚶</span>Walking</button><button class="act-btn" data-act="Sleeping"><span
+                        class="act-icon">🛏</span>Sleeping</button><button class="act-btn" data-act="Still"><span
+                        class="act-icon">🧍</span>Still</button><button class="act-btn" data-act="Falling"><span
+                        class="act-icon">⚠</span>Falling</button></div>
+        </section>
+        <section class="card vital-card">
+            <div class="card-head">
+                <div class="head-left"><span class="head-icon">♥</span>
+                    <h3>Vital Signs</h3>
+                </div>
+                <div class="live">Live</div>
+            </div>
+            <div class="vitals">
+                <div class="vital hr">
+                    <div class="vital-top">
+                        <div class="vicon">❤️</div>
+                        <div class="vname">Heart Rate</div>
+                    </div>
+                    <div><span class="value" id="hr">--</span> <span class="unit">bpm</span></div>
+                    <div class="wave"><svg viewBox="0 0 300 60" preserveAspectRatio="none">
+                            <path
+                                d="M0 31 C20 25 24 45 43 31 S70 19 88 33 S116 49 137 28 S162 19 181 32 S210 49 229 31 S260 18 300 31"
+                                fill="none" stroke="#ef3d48" stroke-width="3" />
+                        </svg></div>
+                    <div class="range">60 - 100</div>
+                </div>
+                <div class="vital spo">
+                    <div class="vital-top">
+                        <div class="vicon">💧</div>
+                        <div class="vname">SpO₂</div>
+                    </div>
+                    <div><span class="value" id="spo2">--</span> <span class="unit">%</span></div>
+                    <div class="wave"><svg viewBox="0 0 300 60" preserveAspectRatio="none">
+                            <path
+                                d="M0 28 C20 8 40 12 59 30 S92 48 112 28 S143 8 161 28 S190 47 210 29 S240 14 258 29 S279 43 300 29"
+                                fill="none" stroke="#2085ef" stroke-width="3" />
+                        </svg></div>
+                    <div class="range">95 - 100</div>
+                </div>
+            </div>
+        </section>
+        <section class="card side-card">
+            <div class="head-left"><span class="head-icon">🔔</span>
+                <h3>Alerts</h3>
+            </div>
+            <div class="alert-box">
+                <div class="check" id="alertIcon">✓</div>
+                <h4 id="alertTitle">No Active Alerts</h4>
+                <p id="alertText">System is monitoring normally</p>
+            </div>
+        </section>
+        <section class="card info-card">
+            <div class="head-left"><span class="head-icon">〽</span>
+                <h3>Activity Information</h3>
+            </div>
+            <div class="info-table">
+                <div class="row"><span>Activity</span><strong id="infoActivity" class="green">Still</strong></div>
+                <div class="row"><span>Confidence</span><strong id="confidence">0%</strong></div>
+                <div class="row"><span>Duration</span><strong id="duration">00:00:00</strong></div>
+            </div>
+        </section>
+        <section class="card recent">
+            <div class="head-left"><span class="head-icon">◷</span>
+                <h3>Recent Activity</h3>
+            </div>
+            <div class="recent-list" id="recentList"></div>
+        </section>
+    </main>
+    <script>
+        const videoMap = { Walking: "walk.mp4", Sleeping: "sleep.mp4", Still: "still.mp4", Falling: "fall.mp4" }; let currentVideo = "";
+        function updateClock() { const d = new Date(); document.getElementById("clock").textContent = d.toLocaleTimeString(); document.getElementById("date").textContent = d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }) } setInterval(updateClock, 1000); updateClock();
+        function setVideo(activity) { const file = videoMap[activity], video = document.getElementById("activityVideo"), fallback = document.getElementById("videoFallback"); if (!file || file === currentVideo) return; currentVideo = file; video.src = "/static/videos/" + file; video.load(); video.play().catch(() => { }); video.onerror = () => fallback.style.display = "flex"; video.onloadeddata = () => fallback.style.display = "none" }
+        function renderHistory(items) { const list = document.getElementById("recentList"); if (!items || !items.length) { list.innerHTML = '<div style="color:#8994aa;padding:15px 0">Waiting for activity data...</div>'; return } list.innerHTML = items.map(x => `<div class="recent-row"><span class="r-dot ${x.fall ? "fall" : ""}"></span><span class="r-time">${x.time}</span><span class="r-activity ${x.fall ? "fall" : ""}">${x.activity}</span></div>`).join("") }
+        function update(data) {
+            const activity = data.activity || "Still";
+            document.getElementById("currentActivity").textContent = activity;
+            document.getElementById("infoActivity").textContent = activity;
+            document.getElementById("infoActivity").className = activity === "Falling" ? "red" : "green";
+            document.getElementById("confidence").textContent = (data.confidence || 0).toFixed(0) + "%";
+            document.getElementById("duration").textContent = data.duration || "00:00:00";
+            document.getElementById("hr").textContent = data.heart_rate == null ? "--" : data.heart_rate;
+            document.getElementById("spo2").textContent = data.spo2 == null ? "--" : data.spo2;
+            setVideo(activity);
+            document.querySelectorAll(".act-btn").forEach(b => b.classList.toggle("active", b.dataset.act === activity));
+            const connected = data.device_connected;
+            document.getElementById("deviceText").textContent = connected ? "Device Connected" : "Device Disconnected";
+            document.getElementById("deviceIp").textContent = connected ? (data.device_ip || "Connected") : "Waiting for device...";
+            document.getElementById("deviceDot").style.background = connected ? "#6bdc26" : "#f2a51b";
+            const alerts = data.alerts || [], alertIcon = document.getElementById("alertIcon"), alertTitle = document.getElementById("alertTitle"), alertText = document.getElementById("alertText");
+            if (alerts.length) { alertIcon.textContent = "!"; alertIcon.style.background = "#ffe3e5"; alertIcon.style.color = "#ef3340"; alertTitle.textContent = alerts[0]; alertText.textContent = alerts.length > 1 ? alerts.slice(1).join(" • ") : "Immediate attention may be required" } else { alertIcon.textContent = "✓"; alertIcon.style.background = "#dcf9e5"; alertIcon.style.color = "#14a956"; alertTitle.textContent = "No Active Alerts"; alertText.textContent = "System is monitoring normally" }
+            renderHistory(data.history);
+        }
+        async function poll() { try { const r = await fetch("/api/status", { cache: "no-store" }); if (r.ok) update(await r.json()) } catch (e) { document.getElementById("deviceText").textContent = "Server Offline" } } setVideo("Still"); poll(); setInterval(poll, 1000);
+    </script>
 </body>
+
 </html>
