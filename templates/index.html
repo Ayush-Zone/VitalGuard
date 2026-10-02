@@ -338,7 +338,11 @@
         }
 
         .side-card {
-            padding: 19px
+            padding: 19px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 0
         }
 
         .side-card h3,
@@ -419,8 +423,11 @@
 
         .recent-list {
             margin-top: 7px;
-            max-height: calc(100% - 45px);
-            overflow-y: auto
+            flex: 1;
+            min-height: 0;
+            max-height: none;
+            overflow-y: auto;
+            padding-right: 4px
         }
 
         .recent-row {
@@ -543,115 +550,341 @@
                 <p>Fall Detection &amp; Vital Monitoring</p>
             </div>
         </div>
+
         <div class="device">
             <div class="dot" id="deviceDot"></div>
-            <div><b id="deviceText">Device Connected</b><small id="deviceIp">Waiting for device...</small></div>
-            <div class="clock"><strong id="clock">--:--:--</strong><span id="date">---</span></div>
+            <div>
+                <b id="deviceText">Device Connected</b>
+                <small id="deviceIp">Waiting for device...</small>
+            </div>
+            <div class="clock">
+                <strong id="clock">--:--:--</strong>
+                <span id="date">---</span>
+            </div>
         </div>
     </header>
+
     <main>
         <section class="card activity-card">
             <div class="activity-title">
                 <div class="label">Current Activity</div>
                 <h2 id="currentActivity">Still</h2>
             </div>
-            <div class="video-wrap"><video id="activityVideo" autoplay muted loop playsinline></video>
-                <div class="video-fallback" id="videoFallback">Add activity videos to static/videos/</div>
+
+            <div class="video-wrap">
+                <video id="activityVideo" autoplay muted loop playsinline></video>
+                <div class="video-fallback" id="videoFallback">
+                    Add activity videos to static/videos/
+                </div>
             </div>
-            <div class="activity-buttons"><button class="act-btn" data-act="Walking"><span
-                        class="act-icon">🚶</span>Walking</button><button class="act-btn" data-act="Sleeping"><span
-                        class="act-icon">🛏</span>Sleeping</button><button class="act-btn" data-act="Still"><span
-                        class="act-icon">🧍</span>Still</button><button class="act-btn" data-act="Falling"><span
-                        class="act-icon">⚠</span>Falling</button></div>
+
+            <div class="activity-buttons">
+                <button class="act-btn" data-act="Walking">
+                    <span class="act-icon">🚶</span>Walking
+                </button>
+                <button class="act-btn" data-act="Sleeping">
+                    <span class="act-icon">🛏</span>Sleeping
+                </button>
+                <button class="act-btn" data-act="Still">
+                    <span class="act-icon">🧍</span>Still
+                </button>
+                <button class="act-btn" data-act="Falling">
+                    <span class="act-icon">⚠</span>Falling
+                </button>
+            </div>
         </section>
+
         <section class="card vital-card">
             <div class="card-head">
-                <div class="head-left"><span class="head-icon">♥</span>
+                <div class="head-left">
+                    <span class="head-icon">♥</span>
                     <h3>Vital Signs</h3>
                 </div>
                 <div class="live">Live</div>
             </div>
+
             <div class="vitals">
                 <div class="vital hr">
                     <div class="vital-top">
                         <div class="vicon">❤️</div>
                         <div class="vname">Heart Rate</div>
                     </div>
-                    <div><span class="value" id="hr">--</span> <span class="unit">bpm</span></div>
-                    <div class="wave"><svg viewBox="0 0 300 60" preserveAspectRatio="none">
+
+                    <div>
+                        <span class="value" id="hr">--</span>
+                        <span class="unit">bpm</span>
+                    </div>
+
+                    <div class="wave">
+                        <svg viewBox="0 0 300 60" preserveAspectRatio="none">
                             <path
                                 d="M0 31 C20 25 24 45 43 31 S70 19 88 33 S116 49 137 28 S162 19 181 32 S210 49 229 31 S260 18 300 31"
-                                fill="none" stroke="#ef3d48" stroke-width="3" />
-                        </svg></div>
+                                fill="none"
+                                stroke="#ef3d48"
+                                stroke-width="3" />
+                        </svg>
+                    </div>
+
                     <div class="range">60 - 100</div>
                 </div>
+
                 <div class="vital spo">
                     <div class="vital-top">
                         <div class="vicon">💧</div>
                         <div class="vname">SpO₂</div>
                     </div>
-                    <div><span class="value" id="spo2">--</span> <span class="unit">%</span></div>
-                    <div class="wave"><svg viewBox="0 0 300 60" preserveAspectRatio="none">
+
+                    <div>
+                        <span class="value" id="spo2">--</span>
+                        <span class="unit">%</span>
+                    </div>
+
+                    <div class="wave">
+                        <svg viewBox="0 0 300 60" preserveAspectRatio="none">
                             <path
                                 d="M0 28 C20 8 40 12 59 30 S92 48 112 28 S143 8 161 28 S190 47 210 29 S240 14 258 29 S279 43 300 29"
-                                fill="none" stroke="#2085ef" stroke-width="3" />
-                        </svg></div>
+                                fill="none"
+                                stroke="#2085ef"
+                                stroke-width="3" />
+                        </svg>
+                    </div>
+
                     <div class="range">95 - 100</div>
                 </div>
             </div>
         </section>
+
         <section class="card side-card">
-            <div class="head-left"><span class="head-icon">🔔</span>
+            <div class="head-left">
+                <span class="head-icon">🔔</span>
                 <h3>Alerts</h3>
             </div>
+
             <div class="alert-box">
                 <div class="check" id="alertIcon">✓</div>
                 <h4 id="alertTitle">No Active Alerts</h4>
                 <p id="alertText">System is monitoring normally</p>
             </div>
+
+            <div class="recent-list" id="alertHistoryList"></div>
         </section>
+
         <section class="card info-card">
-            <div class="head-left"><span class="head-icon">〽</span>
+            <div class="head-left">
+                <span class="head-icon">〽</span>
                 <h3>Activity Information</h3>
             </div>
+
             <div class="info-table">
-                <div class="row"><span>Activity</span><strong id="infoActivity" class="green">Still</strong></div>
-                <div class="row"><span>Confidence</span><strong id="confidence">0%</strong></div>
-                <div class="row"><span>Duration</span><strong id="duration">00:00:00</strong></div>
+                <div class="row">
+                    <span>Activity</span>
+                    <strong id="infoActivity" class="green">Still</strong>
+                </div>
+
+                <div class="row">
+                    <span>Confidence</span>
+                    <strong id="confidence">0%</strong>
+                </div>
+
+                <div class="row">
+                    <span>Duration</span>
+                    <strong id="duration">00:00:00</strong>
+                </div>
             </div>
         </section>
+
         <section class="card recent">
-            <div class="head-left"><span class="head-icon">◷</span>
+            <div class="head-left">
+                <span class="head-icon">◷</span>
                 <h3>Recent Activity</h3>
             </div>
+
             <div class="recent-list" id="recentList"></div>
         </section>
     </main>
+
     <script>
-        const videoMap = { Walking: "walk.mp4", Sleeping: "sleep.mp4", Still: "still.mp4", Falling: "fall.mp4" }; let currentVideo = "";
-        function updateClock() { const d = new Date(); document.getElementById("clock").textContent = d.toLocaleTimeString(); document.getElementById("date").textContent = d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }) } setInterval(updateClock, 1000); updateClock();
-        function setVideo(activity) { const file = videoMap[activity], video = document.getElementById("activityVideo"), fallback = document.getElementById("videoFallback"); if (!file || file === currentVideo) return; currentVideo = file; video.src = "/static/videos/" + file; video.load(); video.play().catch(() => { }); video.onerror = () => fallback.style.display = "flex"; video.onloadeddata = () => fallback.style.display = "none" }
-        function renderHistory(items) { const list = document.getElementById("recentList"); if (!items || !items.length) { list.innerHTML = '<div style="color:#8994aa;padding:15px 0">Waiting for activity data...</div>'; return } list.innerHTML = items.map(x => `<div class="recent-row"><span class="r-dot ${x.fall ? "fall" : ""}"></span><span class="r-time">${x.time}</span><span class="r-activity ${x.fall ? "fall" : ""}">${x.activity}</span></div>`).join("") }
+        const videoMap = {
+            Walking: "walk.mp4",
+            Sleeping: "sleep.mp4",
+            Still: "still.mp4",
+            Falling: "fall.mp4"
+        };
+
+        let currentVideo = "";
+
+        function updateClock() {
+            const d = new Date();
+            document.getElementById("clock").textContent =
+                d.toLocaleTimeString();
+
+            document.getElementById("date").textContent =
+                d.toLocaleDateString(undefined, {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric"
+                });
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        function setVideo(activity) {
+            const file = videoMap[activity];
+            const video = document.getElementById("activityVideo");
+            const fallback = document.getElementById("videoFallback");
+
+            if (!file || file === currentVideo) return;
+
+            currentVideo = file;
+            video.src = "/static/videos/" + file;
+            video.load();
+            video.play().catch(() => {});
+
+            video.onerror = () =>
+                fallback.style.display = "flex";
+
+            video.onloadeddata = () =>
+                fallback.style.display = "none";
+        }
+
+        function renderHistory(items) {
+            const list = document.getElementById("recentList");
+
+            if (!items || !items.length) {
+                list.innerHTML =
+                    '<div style="color:#8994aa;padding:15px 0">Waiting for activity data...</div>';
+                return;
+            }
+
+            list.innerHTML = items.map(x =>
+                `<div class="recent-row">
+                    <span class="r-dot ${x.fall ? "fall" : ""}"></span>
+                    <span class="r-time">${x.time}</span>
+                    <span class="r-activity ${x.fall ? "fall" : ""}">${x.activity}</span>
+                </div>`
+            ).join("");
+        }
+
+        function renderAlertHistory(items) {
+            const list = document.getElementById("alertHistoryList");
+
+            if (!items || !items.length) {
+                list.innerHTML =
+                    '<div style="color:#8994aa;padding:8px 0">No alert history</div>';
+                return;
+            }
+
+            list.innerHTML = items.map(x =>
+                `<div class="recent-row">
+                    <span class="r-dot fall"></span>
+                    <span class="r-time">${x.time}</span>
+                    <span class="r-activity fall">${x.alert}</span>
+                </div>`
+            ).join("");
+        }
+
         function update(data) {
             const activity = data.activity || "Still";
-            document.getElementById("currentActivity").textContent = activity;
-            document.getElementById("infoActivity").textContent = activity;
-            document.getElementById("infoActivity").className = activity === "Falling" ? "red" : "green";
-            document.getElementById("confidence").textContent = (data.confidence || 0).toFixed(0) + "%";
-            document.getElementById("duration").textContent = data.duration || "00:00:00";
-            document.getElementById("hr").textContent = data.heart_rate == null ? "--" : data.heart_rate;
-            document.getElementById("spo2").textContent = data.spo2 == null ? "--" : data.spo2;
+
+            document.getElementById("currentActivity").textContent =
+                activity;
+
+            document.getElementById("infoActivity").textContent =
+                activity;
+
+            document.getElementById("infoActivity").className =
+                activity === "Falling" ? "red" : "green";
+
+            document.getElementById("confidence").textContent =
+                (data.confidence || 0).toFixed(0) + "%";
+
+            document.getElementById("duration").textContent =
+                data.duration || "00:00:00";
+
+            document.getElementById("hr").textContent =
+                data.heart_rate == null ? "--" : data.heart_rate;
+
+            document.getElementById("spo2").textContent =
+                data.spo2 == null ? "--" : data.spo2;
+
             setVideo(activity);
-            document.querySelectorAll(".act-btn").forEach(b => b.classList.toggle("active", b.dataset.act === activity));
+
+            document.querySelectorAll(".act-btn").forEach(b =>
+                b.classList.toggle(
+                    "active",
+                    b.dataset.act === activity
+                )
+            );
+
             const connected = data.device_connected;
-            document.getElementById("deviceText").textContent = connected ? "Device Connected" : "Device Disconnected";
-            document.getElementById("deviceIp").textContent = connected ? (data.device_ip || "Connected") : "Waiting for device...";
-            document.getElementById("deviceDot").style.background = connected ? "#6bdc26" : "#f2a51b";
-            const alerts = data.alerts || [], alertIcon = document.getElementById("alertIcon"), alertTitle = document.getElementById("alertTitle"), alertText = document.getElementById("alertText");
-            if (alerts.length) { alertIcon.textContent = "!"; alertIcon.style.background = "#ffe3e5"; alertIcon.style.color = "#ef3340"; alertTitle.textContent = alerts[0]; alertText.textContent = alerts.length > 1 ? alerts.slice(1).join(" • ") : "Immediate attention may be required" } else { alertIcon.textContent = "✓"; alertIcon.style.background = "#dcf9e5"; alertIcon.style.color = "#14a956"; alertTitle.textContent = "No Active Alerts"; alertText.textContent = "System is monitoring normally" }
+
+            document.getElementById("deviceText").textContent =
+                connected ? "Device Connected" : "Device Disconnected";
+
+            document.getElementById("deviceIp").textContent =
+                connected
+                    ? (data.device_ip || "Connected")
+                    : "Waiting for device...";
+
+            document.getElementById("deviceDot").style.background =
+                connected ? "#6bdc26" : "#f2a51b";
+
+            const alerts = data.alerts || [];
+            const alertIcon = document.getElementById("alertIcon");
+            const alertTitle = document.getElementById("alertTitle");
+            const alertText = document.getElementById("alertText");
+            const alertHistoryList =
+                document.getElementById("alertHistoryList");
+
+            if (alerts.length) {
+                alertIcon.textContent = "!";
+                alertIcon.style.background = "#ffe3e5";
+                alertIcon.style.color = "#ef3340";
+
+                alertTitle.textContent = alerts[0];
+
+                alertText.textContent =
+                    alerts.length > 1
+                        ? alerts.slice(1).join(" • ")
+                        : "Immediate attention may be required";
+
+                alertHistoryList.style.display = "none";
+            } else {
+                alertIcon.textContent = "✓";
+                alertIcon.style.background = "#dcf9e5";
+                alertIcon.style.color = "#14a956";
+
+                alertTitle.textContent = "No Active Alerts";
+                alertText.textContent =
+                    "System is monitoring normally";
+
+                alertHistoryList.style.display = "block";
+
+                renderAlertHistory(data.alert_history);
+            }
+
             renderHistory(data.history);
         }
-        async function poll() { try { const r = await fetch("/api/status", { cache: "no-store" }); if (r.ok) update(await r.json()) } catch (e) { document.getElementById("deviceText").textContent = "Server Offline" } } setVideo("Still"); poll(); setInterval(poll, 1000);
+
+        async function poll() {
+            try {
+                const r = await fetch("/api/status", {
+                    cache: "no-store"
+                });
+
+                if (r.ok) {
+                    update(await r.json());
+                }
+            } catch (e) {
+                document.getElementById("deviceText").textContent =
+                    "Server Offline";
+            }
+        }
+
+        setVideo("Still");
+        poll();
+        setInterval(poll, 1000);
     </script>
 </body>
 

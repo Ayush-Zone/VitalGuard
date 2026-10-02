@@ -29,6 +29,7 @@ pygame.mixer.music.load(ALERT_SOUND)
 state_lock=threading.Lock()
 buffer=collections.deque(maxlen=WINDOW_SIZE)
 history=collections.deque()
+alert_history=collections.deque()
 
 dashboard={
     "activity":"Still",
@@ -99,6 +100,12 @@ def build_alerts():
     new_alerts=[a for a in alerts if a not in last_alerts]
     if new_alerts:
         play_alert()
+        now=datetime.now().strftime("%H:%M:%S")
+        for alert in new_alerts:
+            alert_history.appendleft({
+                "time":now,
+                "alert":alert
+            })
     last_alerts=alerts.copy()
     return alerts
 
@@ -273,6 +280,7 @@ def api_status():
         current["device_connected"]=connected
         current["duration"]=format_duration(now-activity_started_at)
         current["history"]=list(history)
+        current["alert_history"]=list(alert_history)
         current["alerts"]=list(dashboard["alerts"])
 
     return jsonify(current)
